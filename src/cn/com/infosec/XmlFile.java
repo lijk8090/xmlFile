@@ -2,6 +2,7 @@ package cn.com.infosec;
 
 import java.io.File;
 import java.io.FileWriter;
+import java.util.List;
 
 import org.dom4j.Document;
 import org.dom4j.Element;
@@ -40,10 +41,21 @@ public class XmlFile {
 		System.out.println(this.document.asXML());
 	}
 
+	public String dumpXmlFile(String filename) throws Exception {
+		SAXReader reader = new SAXReader();
+		this.document = reader.read(new File(filename != null ? filename : this.filename));
+		return this.document.asXML();
+	}
+
 	public Document readXmlFile(String filename) throws Exception {
 		SAXReader reader = new SAXReader();
 		this.document = reader.read(new File(filename != null ? filename : this.filename));
 		return this.document;
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<Element> getXmlNodes(String xpath) throws Exception {
+		return this.document.selectNodes(xpath);
 	}
 
 	public String getXmlContentValue(String xpath) throws Exception {
